@@ -36,9 +36,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.continuerestapi.navigation.DestinasiNavigasi
 import com.example.continuerestapi.ui.viewModel.DetailUiState
 import com.example.continuerestapi.ui.viewModel.DetailViewModel
 import com.example.continuerestapi.widget.CostumeTopAppBar
+
+object DestinasiDetail : DestinasiNavigasi {
+    override val route = "detail"
+    override val titleRes = "detail Mhs"
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
