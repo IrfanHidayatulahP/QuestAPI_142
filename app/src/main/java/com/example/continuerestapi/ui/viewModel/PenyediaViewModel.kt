@@ -4,19 +4,19 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import com.example.continuerestapi.MahasiswaApp
+import com.example.continuerestapi.widget.MahasiswaApps
 
 object PenyediaViewModel {
     val Factory = viewModelFactory {
         initializer {
-            HomeViewModel(MahasiswaApp().container.mahasiswaRepository)
+            HomeViewModel(MahasiswaApps().container.mahasiswaRepository)
         }
 
         initializer {
-            InsertViewModel(MahasiswaApp().container.mahasiswaRepository)
+            InsertViewModel(MahasiswaApps().container.mahasiswaRepository)
         }
     }
 }
 
-fun CreationExtras.mahasiswaApp() : MahasiswaApp =
-    (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as MahasiswaApp)
+fun CreationExtras.mahasiswaApp() : MahasiswaApps =
+    (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as MahasiswaApps)
