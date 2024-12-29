@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.continuerestapi.ui.view.DestinasiDetail
 import com.example.continuerestapi.ui.view.DestinasiEntry
 import com.example.continuerestapi.ui.view.DestinasiHome
 import com.example.continuerestapi.ui.view.EntryMhsScreen
@@ -24,7 +25,7 @@ fun PengelolaHalaman(
             HomeScreen(
                 navigateToItemEntry = { navController.navigate(DestinasiEntry.route) },
                 onDetailClick = { nim ->
-                    navController.navigate()
+                    navController.navigate(DestinasiDetail.route)
                 }
             )
         }
