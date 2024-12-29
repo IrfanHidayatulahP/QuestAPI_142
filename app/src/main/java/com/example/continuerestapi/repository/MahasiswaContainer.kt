@@ -15,8 +15,9 @@ class MahasiswaContainer : AppContainer {
     private val baseUrl = "http://10.0.2.2/umyTI/"
     private val json = Json { ignoreUnknownKeys = true }
     private val retrofit : Retrofit = Retrofit.Builder()
+        .baseUrl(baseUrl)
         .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
-        .baseUrl(baseUrl).build()
+        .build()
 
     private val mahasiswaApiService: MahasiswaApiService by lazy {
         retrofit.create(MahasiswaApiService::class.java)

@@ -1,8 +1,6 @@
-package com.example.continuerestapi
+package com.example.continuerestapi.repository
 
 import android.app.Application
-import com.example.continuerestapi.repository.AppContainer
-import com.example.continuerestapi.repository.MahasiswaContainer
 
 class MahasiswaApplication : Application() {
     lateinit var container: AppContainer
