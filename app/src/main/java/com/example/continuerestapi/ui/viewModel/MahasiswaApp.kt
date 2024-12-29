@@ -13,7 +13,7 @@ import com.example.continuerestapi.navigation.PengelolaHalaman
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MahasiswaApps() {
+fun MahasiswaApp() {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
