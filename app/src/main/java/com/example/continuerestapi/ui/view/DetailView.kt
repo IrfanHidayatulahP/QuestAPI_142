@@ -10,15 +10,21 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.MailOutline
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -29,7 +35,54 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.continuerestapi.ui.viewModel.DetailUiState
+import com.example.continuerestapi.ui.viewModel.DetailViewModel
+import com.example.continuerestapi.widget.CostumeTopAppBar
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DetailMahasiswaView(
+    modifier: Modifier = Modifier,
+    viewModel: DetailViewModel = viewModel(),
+    onBack: () -> Unit = { },
+    onEditClick: (String) -> Unit = { },
+    onDeleteClick: () -> Unit = { }
+) {
+    Scaffold (
+        topBar = {
+            CostumeTopAppBar(
+                title = "Detail Mahasiswa",
+                canNavigateBack = true,
+                navigateUp = onBack,
+                onRefresh = {
+                    viewModel.getMahasiswaDetail(viewModel.detailUiState.value.detailUiEvent.nim)
+                }
+            )
+        },
+        floatingActionButton = {
+            FloatingActionButton(
+                onClick = {
+                    onEditClick(viewModel.detailUiState.value.detailUiEvent.nim)
+                },
+                shape = MaterialTheme.shapes.medium,
+                modifier = Modifier.padding(16.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Edit,
+                    contentDescription = "Edit Mahasiswa",
+                )
+            }
+        }
+    ) { innerPadding ->
+        val detailUiState by viewModel.detailUiState.collectAsState()
+
+        BodyDetailMahasiswa(
+            modifier = Modifier.padding(innerPadding),
+            detailUiState = detailUiState
+        )
+    }
+}
 
 @Composable
 fun BodyDetailMahasiswa(
