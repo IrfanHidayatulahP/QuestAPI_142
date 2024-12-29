@@ -1,8 +1,44 @@
 package com.example.continuerestapi.ui.viewModel
 
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.continuerestapi.model.Mahasiswa
+import com.example.continuerestapi.repository.MahasiswaRepository
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
-class DetailViewModel {
+class DetailViewModel(
+    private val mahasiswaRepository: MahasiswaRepository
+) : ViewModel() {
+
+    private val _detailUiState = MutableStateFlow(DetailUiState())
+    val detailUiState: StateFlow<DetailUiState> = _detailUiState.asStateFlow()
+
+    fun getMahasiswaDetail(nim: String) {
+        viewModelScope.launch {
+            _detailUiState.update { it.copy(isLoading = true, isError = false, errorMessage = "") }
+            try {
+                val mahasiswa = mahasiswaRepository.getMahasiswaById(nim)
+                _detailUiState.update {
+                    it.copy(
+                        detailUiEvent = mahasiswa.toDetailUiEvent(),
+                        isLoading = false
+                    )
+                }
+            } catch (e: Exception) {
+                _detailUiState.update {
+                    it.copy(
+                        isLoading = false,
+                        isError = true,
+                        errorMessage = e.message ?: "Unknown Error"
+                    )
+                }
+            }
+        }
+    }
 }
 
 data class DetailUiState(

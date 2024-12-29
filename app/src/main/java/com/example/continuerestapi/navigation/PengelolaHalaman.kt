@@ -2,7 +2,6 @@ package com.example.continuerestapi.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -24,7 +23,9 @@ fun PengelolaHalaman(
         composable(DestinasiHome.route) {
             HomeScreen(
                 navigateToItemEntry = { navController.navigate(DestinasiEntry.route) },
-                onDetailClick = {}
+                onDetailClick = { nim ->
+                    navController.navigate()
+                }
             )
         }
 
