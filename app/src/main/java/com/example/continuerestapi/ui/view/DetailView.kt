@@ -17,7 +17,8 @@ import com.example.continuerestapi.widget.CostumeTopAppBar
 fun DetailScreen(
     nim: String,
     onNavigateBack: () -> Unit,
-    viewModel: DetailViewModel = viewModel(factory = PenyediaViewModel.Factory)
+    viewModel: DetailViewModel = viewModel(factory = PenyediaViewModel.Factory),
+    onEditClick: () -> Unit
 ) {
     val detailUiState by viewModel.detailUiState.collectAsState()
 
@@ -56,6 +57,15 @@ fun DetailScreen(
                     Text(text = "Jenis Kelamin: ${mahasiswa.jenisKelamin}", style = MaterialTheme.typography.bodyLarge)
                     Text(text = "Alamat: ${mahasiswa.alamat}", style = MaterialTheme.typography.bodyLarge)
                     Text(text = "Angkatan: ${mahasiswa.angkatan}", style = MaterialTheme.typography.bodyLarge)
+
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Button(
+                        onClick = onEditClick,
+                        shape = MaterialTheme.shapes.small,
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text(text = "Edit")
+                    }
                 }
             }
 

@@ -23,6 +23,14 @@ object PenyediaViewModel {
                 nim
             )
         }
+        initializer {
+            val savedStateHandle = createSavedStateHandle()
+            val nim = savedStateHandle.get<String>("nim") ?: throw IllegalArgumentException("NIM is required")
+            UpdateViewModel(
+                mahasiswaApplication().container.mahasiswaRepository,
+                nim
+            )
+        }
     }
 }
 
