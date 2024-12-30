@@ -18,9 +18,11 @@ fun DetailScreen(
     nim: String,
     onNavigateBack: () -> Unit,
     viewModel: DetailViewModel = viewModel(factory = PenyediaViewModel.Factory),
-    onEditClick: () -> Unit
+    onEditClick: () -> Unit,
+    onDeleteSuccess: () -> Unit // Navigasi setelah delete berhasil
 ) {
     val detailUiState by viewModel.detailUiState.collectAsState()
+    var showDeleteDialog by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
@@ -59,12 +61,24 @@ fun DetailScreen(
                     Text(text = "Angkatan: ${mahasiswa.angkatan}", style = MaterialTheme.typography.bodyLarge)
 
                     Spacer(modifier = Modifier.height(16.dp))
+
+                    // Tombol Edit
                     Button(
                         onClick = onEditClick,
                         shape = MaterialTheme.shapes.small,
                         modifier = Modifier.fillMaxWidth()
                     ) {
                         Text(text = "Edit")
+                    }
+
+                    // Tombol Delete
+                    Button(
+                        onClick = { showDeleteDialog = true },
+                        shape = MaterialTheme.shapes.small,
+                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.error),
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text(text = "Delete")
                     }
                 }
             }
@@ -78,5 +92,30 @@ fun DetailScreen(
                 Text("Gagal memuat data. Silakan coba lagi.")
             }
         }
+    }
+
+    // Dialog Konfirmasi Delete
+    if (showDeleteDialog) {
+        AlertDialog(
+            onDismissRequest = { showDeleteDialog = false },
+            title = { Text("Hapus Data") },
+            text = { Text("Apakah Anda yakin ingin menghapus data ini?") },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        viewModel.deleteMahasiswa(nim)
+                        showDeleteDialog = false
+                        onDeleteSuccess()
+                    }
+                ) {
+                    Text("Ya, Hapus", color = MaterialTheme.colorScheme.error)
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showDeleteDialog = false }) {
+                    Text("Batal")
+                }
+            }
+        )
     }
 }

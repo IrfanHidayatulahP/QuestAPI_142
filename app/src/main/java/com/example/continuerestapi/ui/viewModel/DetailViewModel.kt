@@ -37,4 +37,14 @@ class DetailViewModel(
             }
         }
     }
+
+    fun deleteMahasiswa(nim: String) {
+        viewModelScope.launch {
+            try {
+                repository.deleteMahasiswa(nim)
+            } catch (e: Exception) {
+                println("Gagal menghapus mahasiswa: ${e.message}")
+            }
+        }
+    }
 }

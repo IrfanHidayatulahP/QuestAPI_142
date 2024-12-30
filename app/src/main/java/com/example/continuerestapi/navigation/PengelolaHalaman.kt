@@ -47,9 +47,15 @@ fun PengelolaHalaman(
             DetailScreen(
                 nim = nim,
                 onNavigateBack = { navController.popBackStack() },
-                onEditClick = { navController.navigate("update/$nim") }
+                onEditClick = { navController.navigate("update/$nim") },
+                onDeleteSuccess = {
+                    navController.navigate("home") {
+                        popUpTo("home") { inclusive = true }
+                    }
+                }
             )
         }
+
 
         // Halaman Update Mahasiswa
         composable("update/{nim}") { backStackEntry ->
