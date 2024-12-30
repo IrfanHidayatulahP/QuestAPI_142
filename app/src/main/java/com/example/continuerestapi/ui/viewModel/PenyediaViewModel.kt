@@ -1,6 +1,7 @@
 package com.example.continuerestapi.ui.viewModel
 
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
@@ -15,7 +16,12 @@ object PenyediaViewModel {
             InsertViewModel(mahasiswaApplication().container.mahasiswaRepository)
         }
         initializer {
-            DetailViewModel(mahasiswaApplication().container.mahasiswaRepository)
+            val savedStateHandle = createSavedStateHandle()
+            val nim = savedStateHandle.get<String>("nim") ?: throw IllegalArgumentException("NIM is required")
+            DetailViewModel(
+                mahasiswaApplication().container.mahasiswaRepository,
+                nim
+            )
         }
     }
 }

@@ -6,9 +6,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.continuerestapi.ui.view.DestinasiDetail
 import com.example.continuerestapi.ui.view.DestinasiEntry
 import com.example.continuerestapi.ui.view.DestinasiHome
+import com.example.continuerestapi.ui.view.DetailScreen
 import com.example.continuerestapi.ui.view.EntryMhsScreen
 import com.example.continuerestapi.ui.view.HomeScreen
 
@@ -25,7 +25,7 @@ fun PengelolaHalaman(
             HomeScreen(
                 navigateToItemEntry = { navController.navigate(DestinasiEntry.route) },
                 onDetailClick = { nim ->
-                    navController.navigate(DestinasiDetail.route)
+                    navController.navigate("detail/$nim")
                 }
             )
         }
@@ -38,6 +38,14 @@ fun PengelolaHalaman(
                     }
                 }
             })
+        }
+
+        composable("detail/{nim}") { backStackEntry ->
+            val nim = backStackEntry.arguments?.getString("nim") ?: ""
+            DetailScreen(
+                nim = nim,
+                onNavigateBack = { navController.popBackStack() }
+            )
         }
     }
 }

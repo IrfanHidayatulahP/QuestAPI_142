@@ -54,7 +54,7 @@ object DestinasiHome : DestinasiNavigasi {
 fun HomeScreen(
     navigateToItemEntry: () -> Unit,
     modifier: Modifier = Modifier,
-    onDetailClick: (Mahasiswa) -> Unit = {},
+    onDetailClick: (String) -> Unit = {},
     viewModel: HomeViewModel = viewModel(factory = PenyediaViewModel.Factory)
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior()
@@ -84,7 +84,7 @@ fun HomeScreen(
             homeUiState = viewModel.mhsUiState,
             retryAction = { viewModel.getMhs() },
             modifier = Modifier.padding(innerPadding),
-            onDetailClick = onDetailClick,
+            onDetailClick = { onDetailClick(it) },
             onDeleteClick = {
                 viewModel.deleteMhs(it.nim)
                 viewModel.getMhs()
@@ -99,7 +99,7 @@ fun HomeStatus(
     retryAction: () -> Unit,
     modifier: Modifier = Modifier,
     onDeleteClick: (Mahasiswa) -> Unit = {},
-    onDetailClick: (Mahasiswa) -> Unit
+    onDetailClick: (String) -> Unit
 ) {
     when (homeUiState) {
         is HomeUiState.Loading -> OnLoading(modifier = modifier.fillMaxSize())
@@ -114,7 +114,7 @@ fun HomeStatus(
                     mahasiswa = homeUiState.mahasiswa,
                     modifier = modifier.fillMaxWidth(),
                     onDetailClick = {
-                        onDetailClick(it)
+                        onDetailClick(it.nim)
                     },
                     onDeleteClick = {
                         onDeleteClick(it)
@@ -170,14 +170,14 @@ fun MhsLayout(
         contentPadding = PaddingValues(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        items(mahasiswa) { mahasiswa ->
+        items(mahasiswa) { mhs ->
             MhsCard(
-                mahasiswa = mahasiswa,
+                mahasiswa = mhs,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clickable { onDetailClick(mahasiswa) },
+                    .clickable { onDetailClick(mhs) },
                 onDeleteClick = {
-                    onDeleteClick(mahasiswa)
+                    onDeleteClick(mhs)
                 }
             )
         }
